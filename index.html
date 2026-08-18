@@ -473,9 +473,20 @@
   /* ---- Speech synthesis ---- */
   document.getElementById('sound-btn').addEventListener('click', function() {
     if ('speechSynthesis' in window) {
-      const utt = new SpeechSynthesisUtterance('Gliemezis');
+      const latvianVoice = speechSynthesis.getVoices().find((voice) =>
+        voice.lang.toLowerCase().startsWith('lv')
+      );
+
+      if (!latvianVoice) {
+        alert('Šajā ierīcē nav pieejama latviešu valodas balss. Pievieno latviešu valodas balsi ierīces runas iestatījumos.');
+        return;
+      }
+
+      const utt = new SpeechSynthesisUtterance('gliemezis');
       utt.lang = 'lv-LV';
+      utt.voice = latvianVoice;
       utt.rate = 0.85;
+      speechSynthesis.cancel();
       speechSynthesis.speak(utt);
     } else {
       alert('Tavs pārlūks neatbalsta runu. Mēģini pateikt skaļi: Gli-me-zis!');
