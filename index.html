@@ -471,26 +471,15 @@
   }
 
   /* ---- Speech synthesis ---- */
+  const latvianPronunciation = new Audio(
+    'https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=lv&q=gliemezis'
+  );
+
   document.getElementById('sound-btn').addEventListener('click', function() {
-    if ('speechSynthesis' in window) {
-      const latvianVoice = speechSynthesis.getVoices().find((voice) =>
-        voice.lang.toLowerCase().startsWith('lv')
-      );
-
-      if (!latvianVoice) {
-        alert('Šajā ierīcē nav pieejama latviešu valodas balss. Pievieno latviešu valodas balsi ierīces runas iestatījumos.');
-        return;
-      }
-
-      const utt = new SpeechSynthesisUtterance('gliemezis');
-      utt.lang = 'lv-LV';
-      utt.voice = latvianVoice;
-      utt.rate = 0.85;
-      speechSynthesis.cancel();
-      speechSynthesis.speak(utt);
-    } else {
-      alert('Tavs pārlūks neatbalsta runu. Mēģini pateikt skaļi: Gli-me-zis!');
-    }
+    latvianPronunciation.currentTime = 0;
+    latvianPronunciation.play().catch(() => {
+      alert('Skaņu neizdevās atskaņot. Pārbaudi interneta savienojumu un mēģini vēlreiz.');
+    });
   });
 
   /* ---- Cards toggle ---- */
