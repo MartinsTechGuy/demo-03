@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐌 Kas ir Gliemezis?</title>
+  <style>
+    :root {
+      --brown: #8B5E3C;
+      --green: #4CAF50;
+      --light-green: #A8D5A2;
+      --sky: #87CEEB;
+      --cream: #FFF8E7;
+      --yellow: #FFD700;
+      --orange: #FF9800;
+      --pink: #FF69B4;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+      background: linear-gradient(180deg, var(--sky) 0%, var(--light-green) 60%, var(--green) 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: clamp(2rem, 6vw, 4rem);
+      color: var(--brown);
+      text-shadow: 3px 3px 0 var(--yellow);
+      padding: 20px 10px 0;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-10px); }
+    }
+
+    /* -------- SCENE -------- */
+    #scene {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      margin: 20px auto;
+      height: 220px;
+      background: linear-gradient(to bottom, transparent 50%, #6abf69 50%);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Animated snail made with CSS */
+    #snail {
+      position: absolute;
+      bottom: 18px;
+      left: -150px;
+      width: 140px;
+      height: 80px;
+      animation: crawl 8s linear infinite;
+    }
+
+    @keyframes crawl {
+      0%   { left: -150px; }
+      100% { left: calc(100% + 10px); }
+    }
+
+    /* Body */
+    #snail .body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 38px;
+      background: var(--brown);
+      border-radius: 50px 30px 30px 50px;
+    }
+
+    /* Shell */
+    #snail .shell {
+      position: absolute;
+      bottom: 22px;
+      left: 20px;
+      width: 70px;
+      height: 60px;
+      background: conic-gradient(
+        from 0deg,
+        #c0392b 0%, #e74c3c 15%,
+        #f39c12 15%, #f1c40f 30%,
+        #27ae60 30%, #2ecc71 45%,
+        #2980b9 45%, #3498db 60%,
+        #8e44ad 60%, #9b59b6 75%,
+        #c0392b 75%, #e74c3c 90%,
+        #f39c12 90%, #f1c40f 100%
+      );
+      border-radius: 50%;
+      border: 4px solid #7f4e1e;
+      animation: spin-shell 8s linear infinite;
+    }
+
+    @keyframes spin-shell {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Head */
+    #snail .head {
+      position: absolute;
+      bottom: 10px;
+      left: 85px;
+      width: 30px;
+      height: 26px;
+      background: var(--brown);
+      border-radius: 50% 50% 30% 30%;
+    }
+
+    /* Antennae */
+    #snail .ant {
+      position: absolute;
+      width: 3px;
+      background: var(--brown);
+      border-radius: 2px;
+      bottom: 100%;
+      transform-origin: bottom center;
+    }
+    #snail .ant1 { left: 6px;  height: 20px; transform: rotate(-10deg); }
+    #snail .ant2 { left: 16px; height: 20px; transform: rotate(10deg); }
+
+    /* Antenna tips (eyes) */
+    #snail .eye {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #fff;
+      border-radius: 50%;
+      top: -9px;
+      left: -2.5px;
+      border: 2px solid #333;
+    }
+    #snail .eye::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #111;
+      border-radius: 50%;
+      top: 1px;
+      left: 1px;
+    }
+
+    /* Smile */
+    #snail .smile {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      width: 14px;
+      height: 7px;
+      border: 3px solid #fff;
+      border-radius: 0 0 10px 10px;
+      border-top: none;
+    }
+
+    /* Foot (wavy bottom) */
+    #snail .foot {
+      position: absolute;
+      bottom: -4px;
+      left: -5px;
+      width: 115px;
+      height: 14px;
+      background: #a0764d;
+      border-radius: 50%;
+      animation: wiggle 0.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes wiggle {
+      from { transform: scaleX(1)   skewX(0deg);  }
+      to   { transform: scaleX(0.98) skewX(3deg); }
+    }
+
+    /* Grass blades */
+    .blade {
+      position: absolute;
+      bottom: 0;
+      width: 10px;
+      background: var(--green);
+      border-radius: 50% 50% 0 0;
+    }
+
+    /* Rain / sparkle */
+    .sparkle {
+      position: absolute;
+      font-size: 1.5rem;
+      pointer-events: none;
+      animation: fall 1s ease-out forwards;
+    }
+    @keyframes fall {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(80px) scale(0); }
+    }
+
+    /* -------- CARDS -------- */
+    #cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 4px 4px 0 var(--brown);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 3px solid var(--brown);
+    }
+    .card:hover {
+      transform: translateY(-6px) rotate(-2deg);
+      box-shadow: 6px 8px 0 var(--brown);
+    }
+    .card .icon { font-size: 3rem; display: block; margin-bottom: 8px; }
+    .card h2 { font-size: 1.1rem; color: var(--brown); margin-bottom: 6px; }
+    .card p  { font-size: 0.9rem; color: #555; line-height: 1.4; display: none; }
+    .card.open p { display: block; }
+    .card .btn {
+      margin-top: 10px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .card .btn:hover { background: #388E3C; }
+
+    /* -------- QUIZ -------- */
+    #quiz-section {
+      max-width: 600px;
+      margin: 20px auto;
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 4px 4px 0 var(--brown);
+      border: 3px solid var(--brown);
+    }
+    #quiz-section h2 { text-align: center; color: var(--brown); margin-bottom: 16px; font-size: 1.6rem; }
+
+    #question-text { font-size: 1.2rem; text-align: center; margin-bottom: 16px; }
+
+    #answers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ans-btn {
+      padding: 12px 20px;
+      border-radius: 15px;
+      border: 3px solid var(--brown);
+      background: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .ans-btn:hover { background: #ffe9b0; transform: scale(1.02); }
+    .ans-btn.correct { background: #b9f5b2; border-color: #4CAF50; }
+    .ans-btn.wrong   { background: #ffc9c9; border-color: #f44336; }
+
+    #feedback {
+      text-align: center;
+      font-size: 1.3rem;
+      margin-top: 14px;
+      min-height: 2em;
+      font-weight: bold;
+    }
+    #next-btn {
+      display: block;
+      margin: 14px auto 0;
+      padding: 10px 30px;
+      border-radius: 20px;
+      border: none;
+      background: var(--orange);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      display: none;
+      transition: background 0.2s;
+    }
+    #next-btn:hover { background: #e65c00; }
+
+    #score-board { text-align: center; font-size: 1.3rem; color: var(--brown); margin-top: 10px; }
+
+    /* -------- FOOTER -------- */
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--brown);
+      font-size: 0.85rem;
+    }
+
+    /* Rain toggle button */
+    #rain-btn {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 28px;
+      border-radius: 30px;
+      border: 3px solid var(--brown);
+      background: var(--sky);
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #rain-btn:hover { background: #5bb3e0; }
+
+    /* Sound wave */
+    #sound-btn {
+      display: block;
+      margin: 0 auto 10px;
+      padding: 10px 28px;
+      border-radius: 30px;
+      border: 3px solid var(--brown);
+      background: var(--pink);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #sound-btn:hover { background: #c0396e; }
+  </style>
+</head>
+<body>
+
+<h1>🐌 Kas ir Gliemezis?</h1>
+
+<!-- Animated scene -->
+<div id="scene" title="Noklikšķini uz scēnas!">
+  <div id="snail">
+    <div class="shell"></div>
+    <div class="body"></div>
+    <div class="head">
+      <div class="ant ant1"><div class="eye"></div></div>
+      <div class="ant ant2"><div class="eye"></div></div>
+      <div class="smile"></div>
+    </div>
+    <div class="foot"></div>
+  </div>
+</div>
+
+<div style="text-align:center; padding: 0 10px 10px;">
+  <button id="rain-btn">🌧️ Liec lietot! (Gliemežiem patīk lietus)</button>
+  <button id="sound-btn">🔊 Dzirdēt vārdu "Gliemezis"</button>
+</div>
+
+<!-- Info cards -->
+<div id="cards">
+  <div class="card" onclick="toggleCard(this)">
+    <span class="icon">🏠</span>
+    <h2>Māja uz muguras</h2>
+    <p>Gliemezim ir čaula – tā ir viņa māja! Kad gliemezis baidās, tas var ieiet čaulā un paslēpties.</p>
+    <button class="btn">Lasīt vairāk ↓</button>
+  </div>
+  <div class="card" onclick="toggleCard(this)">
+    <span class="icon">🐾</span>
+    <h2>Kā pārvietojas?</h2>
+    <p>Gliemezim nav kāju. Tas slīd uz "vēdera" – muskuļainās kājas. Tas atstāj spīdīgu mitruma pēdu.</p>
+    <button class="btn">Lasīt vairāk ↓</button>
+  </div>
+  <div class="card" onclick="toggleCard(this)">
+    <span class="icon">🥗</span>
+    <h2>Ko ēd?</h2>
+    <p>Gliemezis ēd lapas, augļus un dārzeņus. Tas ir ļoti mazs un lēns ēdājs.</p>
+    <button class="btn">Lasīt vairāk ↓</button>
+  </div>
+  <div class="card" onclick="toggleCard(this)">
+    <span class="icon">🌧️</span>
+    <h2>Mīļākais laiks</h2>
+    <p>Gliemezis visvairāk mīl lietu! Pēc lietus viņš iznāk pastaigāties. Mitrums palīdz viņam slīdēt.</p>
+    <button class="btn">Lasīt vairāk ↓</button>
+  </div>
+  <div class="card" onclick="toggleCard(this)">
+    <span class="icon">👀</span>
+    <h2>Antenas – acis!</h2>
+    <p>Gliemezim ir divi pāri antenu. Garākajās antenās atrodas acis! Tas redz ar antenu galiem.</p>
+    <button class="btn">Lasīt vairāk ↓</button>
+  </div>
+  <div class="card" onclick="toggleCard(this)">
+    <span class="icon">⏱️</span>
+    <h2>Cik ātri?</h2>
+    <p>Gliemezis pārvietojas ļoti lēni – apmēram 50 metri stundā. Tas ir lēnāk par cilvēku ejot!</p>
+    <button class="btn">Lasīt vairāk ↓</button>
+  </div>
+</div>
+
+<!-- Quiz -->
+<div id="quiz-section">
+  <h2>🎓 Mini Viktorīna!</h2>
+  <div id="score-board">Pareizi: <span id="score">0</span> / <span id="total">0</span></div>
+  <div id="question-text"></div>
+  <div id="answers"></div>
+  <div id="feedback"></div>
+  <button id="next-btn" onclick="nextQuestion()">Nākamais jautājums →</button>
+</div>
+
+<footer>Mācies un izbaudies! 🐌✨ Izgatavots pirmās klases skolēniem.</footer>
+
+<script>
+  /* ---- Grass blades ---- */
+  const scene = document.getElementById('scene');
+  for (let i = 0; i < 30; i++) {
+    const b = document.createElement('div');
+    b.className = 'blade';
+    b.style.left = (Math.random() * 100) + '%';
+    b.style.height = (15 + Math.random() * 25) + 'px';
+    b.style.width  = (6 + Math.random() * 6) + 'px';
+    b.style.opacity = 0.7 + Math.random() * 0.3;
+    scene.appendChild(b);
+  }
+
+  /* ---- Scene click sparkles ---- */
+  scene.addEventListener('click', function(e) {
+    const rect = scene.getBoundingClientRect();
+    const emojis = ['✨','⭐','🌟','💫','🌈','🐌'];
+    for (let i = 0; i < 5; i++) {
+      const sp = document.createElement('span');
+      sp.className = 'sparkle';
+      sp.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      sp.style.left = (e.clientX - rect.left + Math.random() * 40 - 20) + 'px';
+      sp.style.top  = (e.clientY - rect.top  + Math.random() * 20 - 10) + 'px';
+      scene.appendChild(sp);
+      sp.addEventListener('animationend', () => sp.remove());
+    }
+  });
+
+  /* ---- Rain ---- */
+  let raining = false;
+  let rainInterval = null;
+  document.getElementById('rain-btn').addEventListener('click', function() {
+    raining = !raining;
+    this.textContent = raining ? '☀️ Apturēt lietu' : '🌧️ Liec lietot!';
+    if (raining) {
+      rainInterval = setInterval(spawnRaindrop, 120);
+    } else {
+      clearInterval(rainInterval);
+    }
+  });
+
+  function spawnRaindrop() {
+    const drop = document.createElement('span');
+    drop.className = 'sparkle';
+    drop.textContent = '💧';
+    drop.style.left = Math.random() * 100 + '%';
+    drop.style.top = '0';
+    drop.style.fontSize = '1.2rem';
+    scene.appendChild(drop);
+    drop.addEventListener('animationend', () => drop.remove());
+  }
+
+  /* ---- Speech synthesis ---- */
+  document.getElementById('sound-btn').addEventListener('click', function() {
+    if ('speechSynthesis' in window) {
+      const utt = new SpeechSynthesisUtterance('Gliemezis');
+      utt.lang = 'lv-LV';
+      utt.rate = 0.85;
+      speechSynthesis.speak(utt);
+    } else {
+      alert('Tavs pārlūks neatbalsta runu. Mēģini pateikt skaļi: Gli-me-zis!');
+    }
+  });
+
+  /* ---- Cards toggle ---- */
+  function toggleCard(card) {
+    card.classList.toggle('open');
+    const btn = card.querySelector('.btn');
+    btn.textContent = card.classList.contains('open') ? 'Aizvērt ↑' : 'Lasīt vairāk ↓';
+  }
+
+  /* ---- Quiz ---- */
+  const questions = [
+    {
+      q: 'Kā sauc gliemeža māju uz muguras?',
+      answers: ['Čaula 🐚', 'Ola 🥚', 'Būda 🏚️', 'Telts ⛺'],
+      correct: 0
+    },
+    {
+      q: 'Ko gliemezis mīl visvairāk?',
+      answers: ['Sauli ☀️', 'Ledu 🧊', 'Lietu 🌧️', 'Vēju 💨'],
+      correct: 2
+    },
+    {
+      q: 'Kur atrodas gliemeža acis?',
+      answers: ['Uz muguras', 'Uz antenu galiem', 'Uz vēdera', 'Nav acu'],
+      correct: 1
+    },
+    {
+      q: 'Kā gliemezis pārvietojas?',
+      answers: ['Skrien ātri 🏃', 'Lido 🕊️', 'Slīd uz vēdera 🐌', 'Lec 🐸'],
+      correct: 2
+    },
+    {
+      q: 'Ko gliemezis ēd?',
+      answers: ['Zivis 🐟', 'Lapas un dārzeņus 🥗', 'Maizi 🍞', 'Saldējumu 🍦'],
+      correct: 1
+    }
+  ];
+
+  let currentQ = 0;
+  let score = 0;
+  let answered = false;
+
+  function loadQuestion() {
+    const q = questions[currentQ];
+    document.getElementById('question-text').textContent = '❓ ' + q.q;
+    document.getElementById('feedback').textContent = '';
+    document.getElementById('next-btn').style.display = 'none';
+    answered = false;
+
+    const container = document.getElementById('answers');
+    container.innerHTML = '';
+    q.answers.forEach((a, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'ans-btn';
+      btn.textContent = a;
+      btn.onclick = () => checkAnswer(i, q.correct);
+      container.appendChild(btn);
+    });
+  }
+
+  function checkAnswer(selected, correct) {
+    if (answered) return;
+    answered = true;
+    const btns = document.querySelectorAll('.ans-btn');
+    btns[correct].classList.add('correct');
+    if (selected !== correct) {
+      btns[selected].classList.add('wrong');
+      document.getElementById('feedback').textContent = '❌ Mēģini vēlreiz nākamreiz!';
+    } else {
+      score++;
+      document.getElementById('score').textContent = score;
+      document.getElementById('feedback').textContent = '✅ Pareizi! Super!';
+    }
+    document.getElementById('total').textContent = currentQ + 1;
+    document.getElementById('next-btn').style.display = 'block';
+  }
+
+  function nextQuestion() {
+    currentQ++;
+    if (currentQ < questions.length) {
+      loadQuestion();
+    } else {
+      document.getElementById('question-text').textContent = '🎉 Viktorīna beigusies!';
+      document.getElementById('answers').innerHTML = '';
+      document.getElementById('feedback').textContent =
+        `Tu ieguvi ${score} no ${questions.length} punktiem! ${score === questions.length ? '🏆 Lieliski!' : '👍 Labi darīts!'}`;
+      document.getElementById('next-btn').style.display = 'none';
+    }
+  }
+
+  loadQuestion();
+</script>
+</body>
+</html>
